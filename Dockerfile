@@ -21,7 +21,6 @@ COPY next.config.js ./
 COPY postcss.config.js ./
 COPY tailwind.config.ts ./
 COPY tsconfig*.json ./
-COPY yarn.lock ./
 
 
 # Build your NestJS application
@@ -39,7 +38,6 @@ WORKDIR /app
 # Copy the production dependencies from the build stage
 COPY --from=build /app/.env ./
 COPY --from=build /app/package*.json ./
-COPY --from=build /app/yarn.lock ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
