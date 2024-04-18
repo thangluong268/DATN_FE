@@ -8,9 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies
-RUN apk add --no-cache git \
-    && yarn install \
-    && yarn cache clean
+RUN yarn install 
 
 # Copy the source code into the container
 COPY public ./public
@@ -24,10 +22,7 @@ COPY tsconfig*.json ./
 
 
 # Build your NestJS application
-RUN apk add --no-cache git curl \
-    && yarn build \
-    && cd .next/standalone \
-    && node-prune
+RUN yarn build
 
 # Stage 2: Create a production-ready image
 FROM node:bookworm-slim
