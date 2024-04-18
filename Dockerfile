@@ -2,7 +2,7 @@
 FROM node:20 AS build
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /appfe
 
 # Copy the package.json and package-lock.json to the container
 COPY package*.json ./
@@ -28,19 +28,19 @@ RUN npm run build
 FROM node:bookworm-slim
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /appfe
 
 # Copy the production dependencies from the build stage
-COPY --from=build /app/.env ./
-COPY --from=build /app/package*.json ./
-COPY --from=build /app/public ./public
-COPY --from=build /app/firebase.config.js ./
-COPY --from=build /app/next.config.js ./
-COPY --from=build /app/postcss.config.js ./
-COPY --from=build /app/tailwind.config.ts ./
-COPY --from=build /app/tsconfig*.json ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
+COPY --from=build /appfe/.env ./
+COPY --from=build /appfe/package*.json ./
+COPY --from=build /appfe/public ./public
+COPY --from=build /appfe/firebase.config.js ./
+COPY --from=build /appfe/next.config.js ./
+COPY --from=build /appfe/postcss.config.js ./
+COPY --from=build /appfe/tailwind.config.ts ./
+COPY --from=build /appfe/tsconfig*.json ./
+COPY --from=build /appfe/node_modules ./node_modules
+COPY --from=build /appfe/.next ./.next
 
 
 # Expose the port used by your NestJS application
