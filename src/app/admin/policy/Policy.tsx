@@ -1,5 +1,6 @@
 "use client";
 import {
+  Alert,
   Button,
   Dialog,
   DialogBody,
@@ -21,13 +22,18 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 import CardPolicy from "./CardPolicy";
-import { APIGetAllPolicy, APIUpdatePolicy } from "@/services/Policy";
+import {
+  APIAddPolicy,
+  APIGetAllPolicy,
+  APIUpdatePolicy,
+} from "@/services/Policy";
 import {
   BuildingStorefrontIcon,
   PlusIcon,
   Square3Stack3DIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
+import Toast from "@/utils/Toast";
 
 interface PolicyProps {
   label: string;
@@ -40,15 +46,35 @@ interface PolicyProps {
 }
 
 function Policy() {
+  const [alert, setAlert] = React.useState({
+    open: false,
+    message: "",
+  });
   const [policies, setPolicies] = React.useState<PolicyProps[]>([]);
   const [type, setType] = React.useState("USER");
   const [isFetchData, setIsFetchData] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-
-  const dictType: Record<string, string> = {
-    user: "Người dùng",
-    product: "Sản phẩm",
-    store: "Cửa hàng",
+  const [policy, setPolicy] = React.useState<any>({
+    name: "",
+    content: "",
+    type: "",
+  });
+  const dictType = {
+    user: {
+      label: "Người dùng",
+      value: "user",
+      icon: <UserIcon className="h-5 w-5" />,
+    },
+    product: {
+      label: "Sản phẩm",
+      value: "product",
+      icon: <Square3Stack3DIcon className="h-5 w-5" />,
+    },
+    store: {
+      label: "Cửa hàng",
+      value: "store",
+      icon: <BuildingStorefrontIcon className="h-5 w-5" />,
+    },
   };
 
   const handleOpen = () => setOpen(!open);
@@ -95,9 +121,48 @@ function Policy() {
       })
     );
   };
+
+  const handleSpeedDial = (type: string) => {
+    setPolicy({ ...policy, type: type.toUpperCase() });
+    handleOpen();
+  };
+
+  const handleAdd = async () => {
+    // Check if policy is empty
+    if (!policy.name || !policy.content) {
+      setAlert({
+        open: true,
+        message: "Vui lòng điền đầy đủ thông tin",
+      });
+      setTimeout(() => {
+        setAlert({
+          open: false,
+          message: "",
+        });
+      }, 2000);
+      return;
+    }
+    const res = await APIAddPolicy(policy);
+    if (res.status == 200 || res.status == 201) {
+      Toast("success", res.data.message, 2000);
+
+      const tab = document
+        .querySelector("ul[role='tablist']")
+        ?.querySelectorAll(
+          `li[data-value='${policy.type.toLowerCase()}']`
+        )[0] as HTMLLIElement;
+      tab?.click();
+      setType(policy.type);
+      setPolicy({ name: "", content: "", type: "" });
+      handleOpen();
+    } else {
+      Toast("error", res.data.message, 2000);
+    }
+  };
+
   return (
     <>
-      <Tabs value="user">
+      <Tabs value={type.toLowerCase()}>
         <TabsHeader>
           {policies.map(({ label, value }) => (
             <Tab
@@ -152,7 +217,7 @@ function Policy() {
           ))}
         </TabsBody>
       </Tabs>
-      <div className="absolute bottom-3 right-3">
+      <div className="absolute bottom-3 right-3 z-10">
         <div className="">
           <SpeedDial>
             <SpeedDialHandler>
@@ -161,21 +226,16 @@ function Policy() {
               </IconButton>
             </SpeedDialHandler>
             <SpeedDialContent>
-              <Tooltip content="Người dùng" placement="left">
-                <SpeedDialAction onClick={handleOpen}>
-                  <UserIcon className="h-5 w-5" />
-                </SpeedDialAction>
-              </Tooltip>
-              <Tooltip content="Sản phẩm" placement="left">
-                <SpeedDialAction onClick={handleOpen}>
-                  <Square3Stack3DIcon className="h-5 w-5" />
-                </SpeedDialAction>
-              </Tooltip>
-              <Tooltip content="Cửa hàng" placement="left">
-                <SpeedDialAction onClick={handleOpen}>
-                  <BuildingStorefrontIcon className="h-5 w-5" />
-                </SpeedDialAction>
-              </Tooltip>
+              {
+                // Loop dictType to render SpeedDialAction
+                Object.entries(dictType).map((item) => (
+                  <Tooltip content={item[1].label} placement="left">
+                    <SpeedDialAction onClick={(e) => handleSpeedDial(item[0])}>
+                      {item[1].icon}
+                    </SpeedDialAction>
+                  </Tooltip>
+                ))
+              }
             </SpeedDialContent>
           </SpeedDial>
         </div>
@@ -183,24 +243,54 @@ function Policy() {
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>Thêm chính sách</DialogHeader>
         <DialogBody>
-          <Input
-            label="Loại"
-            value={"Người dùng"}
-            crossOrigin={undefined}
-            disabled
-          />
+          {alert.open && (
+            <Alert color="red" className="mb-4">
+              {alert.message}
+            </Alert>
+          )}
+          <div className="flex flex-col gap-4">
+            <Input
+              value={
+                policy.type == "USER"
+                  ? dictType.user.label
+                  : policy.type == "PRODUCT"
+                  ? dictType.product.label
+                  : dictType.store.label
+              }
+              crossOrigin={undefined}
+              disabled
+            />
+            <Input
+              label="Tên chính sách"
+              value={policy.name}
+              crossOrigin={undefined}
+              onChange={(e) => setPolicy({ ...policy, name: e.target.value })}
+            />
+            <Textarea
+              label="Nội dung"
+              rows={12}
+              className="w-full"
+              value={policy.content}
+              onChange={(e) =>
+                setPolicy({ ...policy, content: e.target.value })
+              }
+            />
+          </div>
         </DialogBody>
         <DialogFooter>
           <Button
             variant="text"
             color="red"
-            onClick={handleOpen}
+            onClick={(e) => {
+              handleOpen();
+              setPolicy({ name: "", content: "", type: "" });
+            }}
             className="mr-1"
           >
-            <span>Cancel</span>
+            <span>Đóng</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
-            <span>Confirm</span>
+          <Button variant="gradient" color="green" onClick={(e) => handleAdd()}>
+            <span>Thêm</span>
           </Button>
         </DialogFooter>
       </Dialog>
