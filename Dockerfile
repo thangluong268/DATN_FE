@@ -9,7 +9,7 @@ COPY package*.json ./
 
 # Install production dependencies
 RUN apk add --no-cache git \
-    && yarn --frozen-lockfile \
+    && yarn install \
     && yarn cache clean
 
 # Copy the source code into the container
