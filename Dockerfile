@@ -1,6 +1,7 @@
 # Stage 1: Build the application
 FROM node:20 AS build
 
+RUN mkdir -p /appfe
 # Set the working directory in the container
 WORKDIR /appfe
 
@@ -11,15 +12,7 @@ COPY package*.json ./
 RUN npm install 
 
 # Copy the source code into the container
-COPY public ./public
-COPY src ./src
-COPY .env ./
-COPY firebase.config.js ./
-COPY next.config.js ./
-COPY postcss.config.js ./
-COPY tailwind.config.ts ./
-COPY tsconfig*.json ./
-
+COPY . /appfe
 
 # Build your NestJS application
 RUN npm run build
