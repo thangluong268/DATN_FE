@@ -103,7 +103,7 @@ function Policy() {
     };
     fetchData();
   }, [type]);
-  const handleEdit = async (policy: any) => {
+  const handleEdit = (policy: any) => {
     setPolicies((cur) =>
       cur.map((item) => {
         if (item.value == type) {
@@ -145,19 +145,46 @@ function Policy() {
     const res = await APIAddPolicy(policy);
     if (res.status == 200 || res.status == 201) {
       Toast("success", res.data.message, 2000);
-
-      const tab = document
-        .querySelector("ul[role='tablist']")
-        ?.querySelectorAll(
-          `li[data-value='${policy.type.toLowerCase()}']`
-        )[0] as HTMLLIElement;
-      tab?.click();
       setType(policy.type);
       setPolicy({ name: "", content: "", type: "" });
       handleOpen();
+      if (policy.type == type) {
+        setPolicies((cur) => {
+          return cur.map((item) => {
+            if (item.value == policy.type.toLowerCase()) {
+              return {
+                ...item,
+                desc: [res.data.metadata.data, ...item.desc],
+              };
+            }
+            return item;
+          });
+        });
+      } else {
+        const tab = document
+          .querySelector("ul[role='tablist']")
+          ?.querySelectorAll(
+            `li[data-value='${policy.type.toLowerCase()}']`
+          )[0] as HTMLLIElement;
+        tab?.click();
+      }
     } else {
       Toast("error", res.data.message, 2000);
     }
+  };
+
+  const handleDel = (id: string) => {
+    setPolicies((cur) =>
+      cur.map((item: any) => {
+        if (item.value == type.toLowerCase()) {
+          return {
+            ...item,
+            desc: item.desc.filter((desc: any) => desc._id != id),
+          };
+        }
+        return item;
+      })
+    );
   };
 
   return (
@@ -210,6 +237,7 @@ function Policy() {
                   <CardPolicy
                     data={item}
                     handleEdit={(data) => handleEdit(data)}
+                    handleDel={(data) => handleDel(data)}
                   />
                 ))}
               </div>
