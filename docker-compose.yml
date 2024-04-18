@@ -7,10 +7,6 @@ services:
     container_name: dtex-fe
     image: dtex-fe
     restart: always
-    volumes:
-      - ./:/appfe
-      - /appfe/node_modules
-      - /appfe/.next
     ports:
       - "3000:3000"
     networks:

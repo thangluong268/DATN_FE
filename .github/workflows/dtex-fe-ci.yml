@@ -28,6 +28,10 @@ jobs:
         with:
           node-version: "20"
           cache: npm
+      - name: Install Next.js
+        run: |
+          npm uninstall next
+          npm install next
 
   deploy:
     runs-on: self-hosted

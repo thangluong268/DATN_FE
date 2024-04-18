@@ -12,7 +12,14 @@ COPY package*.json ./
 RUN npm install 
 
 # Copy the source code into the container
-COPY . /appfe
+COPY public ./public
+COPY src ./src
+COPY .env ./
+COPY firebase.config.js ./
+COPY next.config.js ./
+COPY postcss.config.js ./
+COPY tailwind.config.ts ./
+COPY tsconfig*.json ./
 
 # Build your NestJS application
 RUN npm run build
@@ -24,16 +31,16 @@ FROM node:bookworm-slim
 WORKDIR /appfe
 
 # Copy the production dependencies from the build stage
-COPY --from=build /appfe/.env ./appfe
-COPY --from=build /appfe/package*.json ./appfe
-COPY --from=build /appfe/public ./appfe/public
-COPY --from=build /appfe/firebase.config.js ./appfe
-COPY --from=build /appfe/next.config.js ./appfe
-COPY --from=build /appfe/postcss.config.js ./appfe
-COPY --from=build /appfe/tailwind.config.ts ./appfe
-COPY --from=build /appfe/tsconfig*.json ./appfe
-COPY --from=build /appfe/node_modules ./appfe/node_modules
-COPY --from=build /appfe/.next ./appfe/.next
+COPY --from=build /appfe/.env ./
+COPY --from=build /appfe/package*.json ./
+COPY --from=build /appfe/public ./public
+COPY --from=build /appfe/firebase.config.js ./
+COPY --from=build /appfe/next.config.js ./
+COPY --from=build /appfe/postcss.config.js ./
+COPY --from=build /appfe/tailwind.config.ts ./
+COPY --from=build /appfe/tsconfig*.json ./
+COPY --from=build /appfe/node_modules ./node_modules
+COPY --from=build /appfe/.next ./.next
 
 
 # Expose the port used by your NestJS application
