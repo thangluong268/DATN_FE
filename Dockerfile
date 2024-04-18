@@ -17,7 +17,6 @@ COPY public ./public
 COPY src ./src
 COPY .env ./
 COPY firebase.config.js ./
-COPY next-env.d.ts ./
 COPY next.config.js ./
 COPY postcss.config.js ./
 COPY tailwind.config.ts ./
