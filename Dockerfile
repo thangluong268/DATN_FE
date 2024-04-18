@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:20 AS build
+FROM node:18 AS build
 
 RUN mkdir -p /appfe
 # Set the working directory in the container
@@ -25,7 +25,7 @@ COPY tsconfig*.json ./
 RUN npm run build
 
 # Stage 2: Create a production-ready image
-FROM node:bookworm-slim
+FROM node:lts-bookworm-slim
 
 # Set the working directory in the container
 WORKDIR /appfe
@@ -47,4 +47,4 @@ COPY --from=build /appfe/.next ./.next
 EXPOSE 3000
 
 # Start your NestJS application in production mode
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

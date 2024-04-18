@@ -26,12 +26,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ matrix.node-version }}
           cache: npm
       - name: Install Next.js
         run: |
-          npm uninstall next
-          npm install next
+          npm install next@latest react@latest react-dom@latest
 
   deploy:
     runs-on: self-hosted
