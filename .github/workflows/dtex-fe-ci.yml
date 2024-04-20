@@ -47,5 +47,5 @@ jobs:
     steps:
     - run: |
         npm run build -- --no-lint
-        pm2 delete dtex-fe
+        pm2 delete dtex-fe || true
         pm2 start npm --name dtex-fe -- run dev
