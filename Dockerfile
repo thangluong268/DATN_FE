@@ -9,7 +9,7 @@ COPY package*.json ./
 
 # Install production dependencies
 RUN npm install
-RUN npm install tailwindcss postcss autoprefixer
+RUN npm install -D tailwindcss postcss autoprefixer
 
 # Copy the source code into the container
 COPY public ./public
