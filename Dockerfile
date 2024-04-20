@@ -45,4 +45,4 @@ COPY --from=build /app/.next ./.next
 EXPOSE 3000
 
 # Start your NestJS application in production mode
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
