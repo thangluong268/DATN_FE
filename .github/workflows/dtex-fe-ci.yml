@@ -44,7 +44,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: build
+    env:
+      DEPLOY_SCRIPT_PATH: ~/workspace/deploy-fe.sh
     steps:
-    - run: |
-      cd ~/workspace
-      sh deploy-fe.sh
+    - run: sh $DEPLOY_SCRIPT_PATH
