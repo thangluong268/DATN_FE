@@ -40,12 +40,12 @@ jobs:
       - name: Install Next.js
         run: |
           npm ci
+          npm run build -- --no-lint
     
   deploy:
     runs-on: self-hosted
     needs: build
     steps:
     - run: |
-        cd ~/workspace
-        chmod +x deploy-fe.sh
-        sh deploy-fe.sh
+        pm2 delete dtex-fe || true
+        pm2 start npm --name dtex-fe -- run dev
