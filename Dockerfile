@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install production dependencies
 RUN npm install
+RUN npm install tailwindcss postcss autoprefixer
 
 # Copy the source code into the container
 COPY public ./public
@@ -31,19 +32,19 @@ WORKDIR /app
 
 # Copy the production dependencies from the build stage
 COPY --from=build /app/.env ./
+COPY --from=build /app/public ./public
+COPY --from=build /app/src ./src
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.next ./.next
 COPY --from=build /app/firebase.config.js ./
 COPY --from=build /app/next.config.js ./
 COPY --from=build /app/postcss.config.js ./
 COPY --from=build /app/tailwind.config.ts ./
 COPY --from=build /app/tsconfig*.json ./
 COPY --from=build /app/package*.json ./
-COPY --from=build /app/public ./public
-COPY --from=build /app/src ./src
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
 
 # Expose the port used by your NestJS application
 EXPOSE 3000
 
 # Start your NestJS application in production mode
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
