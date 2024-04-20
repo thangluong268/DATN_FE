@@ -23,10 +23,11 @@ interface CardPolicyProps {
     content: string;
   };
   handleEdit: (policy: any) => void;
+  handleDel: (id: string) => void;
 }
 
 function CardPolicy(props: CardPolicyProps) {
-  const { data, handleEdit } = props;
+  const { data, handleEdit, handleDel } = props;
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [openDialogDel, setOpenDialogDel] = React.useState(false);
@@ -76,14 +77,16 @@ function CardPolicy(props: CardPolicyProps) {
     }
   };
 
-  const Del = () => {
-    const res = APIRemovePolicy(data._id);
-    // if (res) {
-    //   Toast("success", res.data.message, 2000);
-    //   handleOpenDel();
-    // } else {
-    //   Toast("error", res.data.message, 2000);
-    // }
+  const Del = async () => {
+    const res = await APIRemovePolicy(data._id);
+    if (res.status == 200 || res.status == 201) {
+      Toast("success", res.data.message, 2000);
+      handleOpenDel();
+      setOpen(false);
+      handleDel(data._id);
+    } else {
+      Toast("error", res.data.message, 2000);
+    }
   };
 
   return (
