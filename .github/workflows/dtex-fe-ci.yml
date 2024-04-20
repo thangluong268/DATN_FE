@@ -39,6 +39,4 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Install Next.js
         run: |
-          npm install -g npm@latest
           npm ci
-          npm run build
