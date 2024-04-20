@@ -17,7 +17,7 @@ COPY .env ./
 COPY firebase.config.js ./
 COPY next.config.js ./
 COPY postcss.config.js ./
-COPY tailwind.config.js ./
+COPY tailwind.config.ts ./
 COPY tsconfig*.json ./
 
 # Build your NestJS application
