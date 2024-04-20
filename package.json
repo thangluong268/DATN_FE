@@ -23,6 +23,7 @@
     "next-auth": "^4.24.4",
     "next-share": "^0.27.0",
     "nextjs": "^0.0.3",
+    "postcss-cli": "^11.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
