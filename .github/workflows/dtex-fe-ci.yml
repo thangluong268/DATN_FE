@@ -29,14 +29,3 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
       - name: Install Next.js
-        run: |
-          npm install next@latest react@latest react-dom@latest
-          npm ci
-          npm run build
-
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-    - run: |
-        pm2 restart dtex-fe
