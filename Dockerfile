@@ -4,12 +4,14 @@ FROM node:18 AS build
 # Set the working directory in the container
 WORKDIR /app
 
+RUN npm install -D tailwindcss postcss autoprefixer
+RUN npx tailwindcss init
+
 # Copy the package.json and package-lock.json to the container
 COPY package*.json ./
 
 # Install production dependencies
-RUN npm install -D tailwindcss postcss autoprefixer
-RUN npx tailwindcss init
+
 RUN npm install
 
 # Copy the source code into the container
