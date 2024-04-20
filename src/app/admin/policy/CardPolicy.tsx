@@ -43,7 +43,7 @@ function CardPolicy(props: CardPolicyProps) {
   React.useEffect(() => {
     setContent(data.content.split("\n"));
     setValueChange(data);
-  }, [data._id]);
+  }, [data]);
   const Edit = async () => {
     if (valueChange.content.trim() == "") {
       setAlert({
@@ -104,7 +104,11 @@ function CardPolicy(props: CardPolicyProps) {
         <Card className="my-4">
           <CardBody className="">
             {content.map((item, index) =>
-              item ? <Typography key={index}>{item}</Typography> : <br />
+              item ? (
+                <Typography key={index}>{item}</Typography>
+              ) : (
+                <br key={index} />
+              )
             )}
             <div className="flex">
               <Button
@@ -168,7 +172,8 @@ function CardPolicy(props: CardPolicyProps) {
         <DialogBody>
           <Typography>
             Bạn có chắc chắn muốn xoá chính sách{" "}
-            <span className="font-bold italic">"{data.name}"</span> không?
+            <span className="font-bold italic">&quot;{data.name}&quot;</span>{" "}
+            không?
           </Typography>
         </DialogBody>
         <DialogFooter>

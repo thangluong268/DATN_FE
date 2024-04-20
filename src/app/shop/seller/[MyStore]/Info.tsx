@@ -3,6 +3,7 @@ import { APIUploadImage } from "@/services/UploadImage";
 import CheckValidInput from "@/utils/CheckValidInput";
 import ConvertDate from "@/utils/ConvertDate";
 import FormatMoney from "@/utils/FormatMoney";
+import Image from "next/image";
 import Toast from "@/utils/Toast";
 import React from "react";
 import { FaAddressCard, FaPhone } from "react-icons/fa";
@@ -188,7 +189,7 @@ function Info(props: Props) {
             }
           }}
         >
-          <img
+          <Image
             src=""
             id="avatar-preview"
             alt=""

@@ -81,7 +81,7 @@ function SignUp() {
     return () => {
       document.removeEventListener("keydown", listener);
     };
-  }, [[signUpForm], [checkState]]);
+  }, [signUpForm, checkState, otpForm]);
 
   const SendOTP = async () => {
     const res = await APISendOTP(signUpForm.values.email);

@@ -69,7 +69,7 @@ function CategoryPage() {
       };
       fetchData();
     }
-  }, [page, query]);
+  }, [page, query, idFree, param.id]);
   return (
     <FrameMainContent>
       <div className="flex mt-2 justify-between">

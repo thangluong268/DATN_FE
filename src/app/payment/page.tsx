@@ -8,6 +8,7 @@ import { APICreateBill } from "@/services/Bill";
 import { APIGetUserById, APIUpdateUser } from "@/services/User";
 import CheckValidInput from "@/utils/CheckValidInput";
 import FormatMoney from "@/utils/FormatMoney";
+import Image from "next/image";
 import Toast from "@/utils/Toast";
 import { Checkbox, Input } from "@material-tailwind/react";
 import React from "react";
@@ -52,10 +53,10 @@ function Payment() {
       name: "Thanh toán tiền mặt khi nhận hàng",
       value: "CASH",
       icon: (
-        <img
+        <Image
           src="https://salt.tikicdn.com/ts/upload/92/b2/78/1b3b9cda5208b323eb9ec56b84c7eb87.png"
+          className="w-8 h-8 mr-2"
           alt=""
-          className="w-8 h-8 mr-2 "
         />
       ),
       checked: true,
@@ -64,10 +65,10 @@ function Payment() {
       name: "Thanh toán bằng paypal",
       value: "PAYPAL",
       icon: (
-        <img
+        <Image
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADpklEQVR4Ae2XA7D0VhSAv3uD9TNq27Zt27Ztux1PbQ1qd9RhbVvP9nqTe4pUedrU+r+ZZXC+HARKRPg7mSOgiYQhOgakDHi/PQMiwi677MLXX38NCLRstC8Nq56CqVQRVjn8fCeFntcY+/Apsp99AhqUBuD+++9nmWWW4ZfYwLQCb7/9NoEAsOC6x5PsWgVToSpKgUrtiax8KYOl6xh85gIIyGazANUFAOLxOAA46SSZpnmwNYhNdJwEC251PjE9TtdT1wForX9DDzj13wZPzoUYfh0CfgEa1jgTu7b+tzdhrGkRtOOAMDXVevYXAnayCbducWbAphrx5qVAEUZBOQd+hRkIBCwH7CSU8jkAUL8hA27j0iDh4OKjCsOo4uhMr2D5RB+qPAS7nbQfbkJjKtEzAAJBCZbEmFB8fA9EQFXx9zzIxIWdjzmLVKyM710YOQNBUDuOW7swGEIGxqN6UwYCssTigleENXY4nvmWaowugAGdmRs7NXdYAJRfoSq+DzUZYZUVFZUy2G49qdoFowuIAbdpYbQbQ4QQpgIoZs1exUM231hoblL4PiAgmF+XgXjrkqCmihkP1AyBSyWQb9l2C8Naq2vKZUBBpTxOMdtN9CbUEGuePAFB8EIh+PylhdaQTAiLLyay/lqw6CJBcBGwXej69F36cv3MWx9BQAQsF2KNS4UmAAGNsOaqQioJRkArI4mEor5W0doCTY0aRZAJCHAT8Pqz97LxDkTMgAEr5eLULRJqwLIHyyzsy26b2/gGEAANBNKeD55HqGfiSej5/G2eu/Nezt0zooAYcNKteMl5QMKZaWkQPA9KZWZFW5BIw3DPF9xw9F7kxwpYDtEz4DYuTCmWCB2NVlCXCUQmn3ZjSVAqeInwbcBBXnr0QR666hK6P+8FAImcgWACsgoQgODDsQ11aYUx4eBeaYTXn76NYm6cwY5xRvs/5bPX3qT3y37CRBRQCuItS0+SCro8nVSYSTV+4Zn7uPHYM/64e0LlQqx5WcQAKngZgUwK4jEVKoGyoO399wD+QAFLYSVaQIOygpdoqE2DY+uQgPGg54tP+Y3YzHQiaLt/d9q+nAulBIK/WPm4g7Dcw6Dyc/2LuQJ9bV//wQIg2bbPyX/7+iXNTUdhACHAsmB0aIChzp4/XADtEEZBTfMCGB8UAbYDnR+/QDFb/sOfjD7++GOKxWJ4Mprmn59kTSNifj7ZDHV9xsRwjggsscQSJJPJOc+G/yyBbwD59pkN5OE4OwAAAABJRU5ErkJggg=="
+          className="w-8 h-8 mr-2"
           alt=""
-          className="w-8 h-8 mr-2 "
         />
       ),
       checked: false,
@@ -88,10 +89,10 @@ function Payment() {
       name: "Thanh toán bằng VNPAY",
       value: "VNPAY",
       icon: (
-        <img
+        <Image
           src="https://salt.tikicdn.com/ts/upload/77/6a/df/a35cb9c62b9215dbc6d334a77cda4327.png"
+          className="w-8 h-8 mr-2"
           alt=""
-          className="w-8 h-8 mr-2 "
         />
       ),
       checked: false,
@@ -132,7 +133,7 @@ function Payment() {
         coin * 100 -
         voucher.amount,
     });
-  }, [data, coin, deliveryMethod]);
+  }, [data, coin, deliveryMethod, voucher.amount]);
   React.useEffect(() => {
     let listProducts = [] as any[];
     let listStoreIds = [] as any[];
@@ -388,9 +389,9 @@ function Payment() {
                 >
                   <div className="flex items-center">
                     <div className="w-[100px] h-[100px]">
-                      <img
-                        className=" w-full h-full"
+                      <Image
                         src={product.avatar}
+                        className="w-full h-full"
                         alt="Loading..."
                       />
                     </div>

@@ -11,6 +11,8 @@ import { exportExcel } from "@/utils/ExportExcel";
 import FormatMoney from "@/utils/FormatMoney";
 import Toast from "@/utils/Toast";
 import formatToDDMMYYYY from "@/utils/formatToDDMMYYYY";
+import Image from "next/image";
+
 import {
   Button,
   Card,
@@ -223,7 +225,7 @@ function ManagerUser() {
             key={index}
           >
             <td className="px-6 py-4 text-center">
-              <img
+              <Image
                 src={item.avatar}
                 width={50}
                 height={50}
@@ -260,7 +262,7 @@ function ManagerUser() {
         </Collapse>
         <DialogBody>
           {listReport?.map((item: ListReport, index: number) => (
-            <div className="flex items-center justify-center">
+            <div key={index} className="flex items-center justify-center">
               <Radio
                 onChange={() => setCurrentReport(item._id)}
                 name="type"

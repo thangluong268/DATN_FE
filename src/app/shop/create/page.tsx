@@ -6,6 +6,7 @@ import { APIUploadImage } from "@/services/UploadImage";
 import { APIGetUserById } from "@/services/User";
 import CheckValidInput from "@/utils/CheckValidInput";
 import Toast from "@/utils/Toast";
+import Image from "next/image";
 import React from "react";
 const ReactQuill =
   typeof window === "object" ? require("react-quill") : () => false;
@@ -172,7 +173,7 @@ function CreateStore() {
               <div className="text-[50px] text-[#d9d9d9]" id="symbol-upload">
                 <span className="text-[#d9d9d9]">+</span>
               </div>
-              <img
+              <Image
                 src=""
                 id="avatar-preview"
                 alt=""

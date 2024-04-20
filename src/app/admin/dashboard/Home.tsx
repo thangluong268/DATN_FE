@@ -10,6 +10,7 @@ import {
   Title,
   ArcElement,
 } from "chart.js";
+import Image from "next/image";
 import {
   APIGetCharityByYear,
   APIGetCountBillAdmin,
@@ -382,7 +383,7 @@ function Home() {
               key={index}
             >
               <td className="px-6 py-4 text-center">
-                <img
+                <Image
                   src={item.store.avatar}
                   width={50}
                   height={50}
@@ -414,7 +415,7 @@ function Home() {
               key={index}
             >
               <td className="px-6 py-4 text-center">
-                <img
+                <Image
                   src={item.user.avatar}
                   width={50}
                   height={50}

@@ -64,49 +64,7 @@ function ForgetPassword() {
     )
   );
   const [checkState, setCheckState] = React.useState("UnSend");
-  React.useEffect(() => {
-    if (checkState == "UnSend") {
-      forgetForm.values.email = "";
-      setListField(
-        FORGETPASSWORD.filter(
-          (item) =>
-            item.name !== "otp" &&
-            item.name !== "password" &&
-            item.name !== "repassword"
-        )
-      );
-    } else if (checkState == "Sent") {
-      forgetForm.values.otp = "";
-      setListField(
-        FORGETPASSWORD.filter(
-          (item) =>
-            item.name !== "email" &&
-            item.name !== "password" &&
-            item.name !== "repassword"
-        )
-      );
-    } else if (checkState == "Confirm") {
-      forgetForm.values.password = "";
-      forgetForm.values.repassword = "";
-      setListField(
-        FORGETPASSWORD.filter(
-          (item) => item.name !== "email" && item.name !== "otp"
-        )
-      );
-    }
-  }, [checkState]);
-  React.useEffect(() => {
-    const listener = (event: { code: string; preventDefault: () => void }) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
-        event.preventDefault();
-        Confirm();
-      }
-    };
-    document.addEventListener("keydown", listener);
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
-  }, [forgetForm]);
+
   const Confirm = async () => {
     if (checkState == "UnSend") {
       const res = await APISendOTPForget(forgetForm.values.email);
@@ -144,6 +102,49 @@ function ForgetPassword() {
       }, 2000);
     }
   };
+  React.useEffect(() => {
+    if (checkState == "UnSend") {
+      forgetForm.values.email = "";
+      setListField(
+        FORGETPASSWORD.filter(
+          (item) =>
+            item.name !== "otp" &&
+            item.name !== "password" &&
+            item.name !== "repassword"
+        )
+      );
+    } else if (checkState == "Sent") {
+      forgetForm.values.otp = "";
+      setListField(
+        FORGETPASSWORD.filter(
+          (item) =>
+            item.name !== "email" &&
+            item.name !== "password" &&
+            item.name !== "repassword"
+        )
+      );
+    } else if (checkState == "Confirm") {
+      forgetForm.values.password = "";
+      forgetForm.values.repassword = "";
+      setListField(
+        FORGETPASSWORD.filter(
+          (item) => item.name !== "email" && item.name !== "otp"
+        )
+      );
+    }
+  }, [checkState, forgetForm.values]);
+  React.useEffect(() => {
+    const listener = (event: { code: string; preventDefault: () => void }) => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        event.preventDefault();
+        Confirm();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [Confirm]);
   return (
     <div>
       <FrameInit />

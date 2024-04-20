@@ -23,6 +23,7 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 import { APIGetReportUser } from "@/services/Report";
+import Image from "next/image";
 
 interface ListUser {
   total: number;
@@ -195,7 +196,7 @@ function ManagerUser() {
             key={index}
           >
             <td className="px-6 py-4 text-center">
-              <img
+              <Image
                 src={item.avatar}
                 width={50}
                 height={50}
@@ -223,7 +224,7 @@ function ManagerUser() {
         <DialogHeader>Danh sách báo cáo</DialogHeader>
         <DialogBody>
           {listReport?.map((item: ListReport, index: number) => (
-            <Card className="mt-2">
+            <Card key={index} className="mt-2">
               <CardBody>
                 <div className="flex justify-between items-center gap-7 pt-2">
                   <Typography variant="h6" color="blue-gray" className="mb-2">

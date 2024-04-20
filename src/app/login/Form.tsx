@@ -27,6 +27,34 @@ interface FormProps {
 }
 function Form(props: FormProps) {
   const { fastLogin } = props;
+  const Login = async () => {
+    const res = await APILogin(
+      loginForm.values.email,
+      loginForm.values.password
+    );
+    if (res.status !== 200 && res.status !== 201) {
+      Toast("error", "Tài khoản hoặc mật khẩu không đúng", 5000);
+      return;
+    }
+    localStorage.setItem("user", JSON.stringify(res.data.metadata.data));
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${res.data.metadata.data.accessToken}`;
+    Toast("success", "Đăng nhập thành công", 2000);
+    setTimeout(() => {
+      if (res.data.metadata.data.role.includes("ADMIN")) {
+        window.location.href = "/admin";
+      } else if (res.data.metadata.data.role.includes("MANAGER")) {
+        window.location.href = "/manager/product";
+      } else {
+        if (window.location.pathname == "/login") {
+          window.location.href = "/";
+        } else {
+          window.location.reload();
+        }
+      }
+    }, 2000);
+  };
   const loginForm = useFormik({
     initialValues: {
       email: "",
@@ -61,7 +89,7 @@ function Form(props: FormProps) {
     return () => {
       document.removeEventListener("keydown", listener);
     };
-  }, [loginForm]);
+  }, []);
 
   const handleSignIn = async (func: () => void) => {
     try {
@@ -69,35 +97,6 @@ function Form(props: FormProps) {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const Login = async () => {
-    const res = await APILogin(
-      loginForm.values.email,
-      loginForm.values.password
-    );
-    if (res.status !== 200 && res.status !== 201) {
-      Toast("error", "Tài khoản hoặc mật khẩu không đúng", 5000);
-      return;
-    }
-    localStorage.setItem("user", JSON.stringify(res.data.metadata.data));
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${res.data.metadata.data.accessToken}`;
-    Toast("success", "Đăng nhập thành công", 2000);
-    setTimeout(() => {
-      if (res.data.metadata.data.role.includes("ADMIN")) {
-        window.location.href = "/admin";
-      } else if (res.data.metadata.data.role.includes("MANAGER")) {
-        window.location.href = "/manager/product";
-      } else {
-        if (window.location.pathname == "/login") {
-          window.location.href = "/";
-        } else {
-          window.location.reload();
-        }
-      }
-    }, 2000);
   };
 
   return (

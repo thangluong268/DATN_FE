@@ -54,7 +54,7 @@ function DetailStore() {
       });
     };
     fetchData();
-  }, []);
+  }, [params.id]);
   React.useEffect(() => {
     const fetchData = async () => {
       await APIGetListProductInStore(1, 20, "", params.id).then((res) => {
@@ -62,7 +62,7 @@ function DetailStore() {
       });
     };
     fetchData();
-  }, []);
+  }, [params.id]);
   return (
     <div className="min-h-screen px-[150px] my-4">
       {storeProps._id && (
