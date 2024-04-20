@@ -16,7 +16,6 @@ COPY src ./src
 COPY .env ./
 COPY firebase.config.js ./
 COPY next.config.js ./
-COPY postcss.config.js ./
 COPY tailwind.config.ts ./
 COPY tsconfig*.json ./
 
@@ -33,7 +32,6 @@ WORKDIR /app
 COPY --from=build /app/.env ./
 COPY --from=build /app/firebase.config.js ./
 COPY --from=build /app/next.config.js ./
-COPY --from=build /app/postcss.config.js ./
 COPY --from=build /app/tailwind.config.ts ./
 COPY --from=build /app/tsconfig*.json ./
 COPY --from=build /app/package*.json ./
