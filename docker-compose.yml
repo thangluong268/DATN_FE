@@ -1,17 +1,9 @@
 version: '3.7'
+
 services:
   dtex-fe:
-    build:
-      context: .
-      dockerfile: Dockerfile
     container_name: dtex-fe
     image: dtex-fe
-    restart: always
+    build: .
     ports:
       - "3000:3000"
-    networks:
-      - dtex-fe
-
-networks:
-  dtex-fe:
-    driver: bridge

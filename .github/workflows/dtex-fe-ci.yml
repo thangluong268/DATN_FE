@@ -45,5 +45,6 @@ jobs:
     - run: |
         docker stop dtex-fe || true
         docker rm dtex-fe || true
+        docker-compose -f docker-compose.yml build
         docker-compose -f docker-compose.yml up -d
         docker image prune -f
