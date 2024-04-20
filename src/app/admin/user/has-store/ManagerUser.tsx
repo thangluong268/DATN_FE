@@ -12,6 +12,8 @@ import FormatMoney from "@/utils/FormatMoney";
 import Toast from "@/utils/Toast";
 import formatToDDMMYYYY from "@/utils/formatToDDMMYYYY";
 import { Tooltip } from "@material-tailwind/react";
+import Image from "next/image";
+
 import React from "react";
 
 interface ListUser {
@@ -182,7 +184,7 @@ function ManagerUser() {
             key={index}
           >
             <td className="px-6 py-4 text-center">
-              <img
+              <Image
                 src={item.avatar}
                 width={50}
                 height={50}

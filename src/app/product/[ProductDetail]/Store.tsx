@@ -7,6 +7,7 @@ import {
 } from "@/services/Store";
 import Toast from "@/utils/Toast";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import React from "react";
 import { FaPlus, FaTelegramPlane } from "react-icons/fa";
 interface Props {
@@ -65,7 +66,7 @@ function Store(props: Props) {
       });
     };
     fetchData();
-  }, [product.storeId]);
+  }, [product.storeId, params.ProductDetail]);
   const FollowStore = async (status: boolean) => {
     setStoreInfo({
       ...storeInfo,
@@ -81,7 +82,7 @@ function Store(props: Props) {
       <p className="text-lg font-bold mb-2">Thông tin người bán:</p>
       <div className="mb-2 flex items-center justify-between border-[#D2E0FB] border-2 p-2 rounded-md">
         <div className="flex items-center">
-          <img
+          <Image
             src={storeInfo.avatar!}
             width={50}
             height={50}

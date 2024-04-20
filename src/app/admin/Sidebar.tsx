@@ -50,7 +50,7 @@ function Sidebar(props: ChildrenProps) {
     } else if (code.startsWith("store")) {
       setOpen(2);
     }
-  }, []);
+  }, [code]);
   return (
     <Card className="min-h-[calc(100vh-2rem)] w-full p-4 shadow-xl shadow-blue-gray-900/5 ">
       <div className="mb-2 p-4">

@@ -24,6 +24,8 @@ import Store from "./Store";
 import Feedback from "./Feedback";
 import Modal from "@/components/Modal";
 import Form from "@/app/login/Form";
+import Image from "next/image";
+
 import { APIReportUser } from "@/services/Report";
 import Promotion from "@/components/Promotion";
 
@@ -60,7 +62,7 @@ function ProductDetail() {
       });
     };
     fetchData();
-  }, []);
+  }, [params.ProductDetail]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +76,7 @@ function ProductDetail() {
       });
     };
     fetchData();
-  }, []);
+  }, [params.ProductDetail]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +85,7 @@ function ProductDetail() {
       });
     };
     fetchData();
-  }, []);
+  }, [params.ProductDetail]);
 
   const carts = useAppSelector((state) => state.cartPopupReducer.items);
   const AddToCart = async (buyNow?: boolean) => {
@@ -177,7 +179,7 @@ function ProductDetail() {
             <div className="grid grid-flow-col grid-cols-10 gap-2">
               <div className="bg-white rounded-md p-4 col-span-4 flex flex-col">
                 <div className="rounded-md mb-2 border-solid border-[#D2E0FB] border-2">
-                  <img
+                  <Image
                     src={product?.avatar[currentImage]}
                     className="w-full h-full object-cover rounded-md"
                     alt=""
@@ -198,7 +200,7 @@ function ProductDetail() {
                         }}
                         key={index}
                       >
-                        <img
+                        <Image
                           src={product.avatar[index]}
                           className="w-full h-full min-w-[100px] object-cover rounded-md"
                           alt=""

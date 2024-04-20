@@ -125,7 +125,7 @@ function Warehouse() {
       setData(data.metadata);
     };
     fetchData();
-  }, [page, deleted]);
+  }, [page, deleted, sortType, sortValue]);
   const category = localStorage.getItem("category")
     ? JSON.parse(localStorage.getItem("category")!)
     : null;

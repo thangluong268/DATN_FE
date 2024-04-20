@@ -12,6 +12,7 @@ import Report from "@/components/Report";
 import { exportExcel } from "@/utils/ExportExcel";
 import Toast from "@/utils/Toast";
 import ConvertDate from "@/utils/ConvertDate";
+import Image from "next/image";
 
 interface Product {
   _id: string;
@@ -340,7 +341,7 @@ function ManagerProduct() {
                 {currentProduct.avatar.map((ava, ind) => (
                   <>
                     <div className="w-1/4 m-2" key={ind}>
-                      <img src={ava} alt="" className="w-full" />
+                      <Image src={ava} className="w-full" alt="" />
                     </div>
                   </>
                 ))}

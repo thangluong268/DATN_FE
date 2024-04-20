@@ -11,6 +11,7 @@ import Toast from "@/utils/Toast";
 import { useParams } from "next/navigation";
 import React from "react";
 import { FaRegPaperPlane } from "react-icons/fa";
+import Image from "next/image";
 interface Props {
   isPurchase: boolean;
   setTotalFeedback: (arg: number) => void;
@@ -43,7 +44,7 @@ function Feedback(props: Props) {
       );
     };
     fetchData();
-  }, [page]);
+  }, [page, params.ProductDetail, setTotalFeedback]);
   const SendFeedback = async () => {
     await APICreateFeedback(params.ProductDetail + "", feedback).then(
       (res: any) => {
@@ -101,11 +102,11 @@ function Feedback(props: Props) {
         <div key={index}>
           <article>
             <div className="flex items-center mb-4">
-              <img
-                className="w-10 h-10 me-4 rounded-full"
+              <Image
                 src={item.avatar}
+                className="w-10 h-10 me-4 rounded-full"
                 alt=""
-              ></img>
+              />
               <div className="font-medium dark:text-white">
                 <p>
                   {item.name}
@@ -223,11 +224,11 @@ function Feedback(props: Props) {
             </svg>
           </div>
           <div className="flex items-center mb-4">
-            <img
-              className="w-10 h-10 me-4 rounded-full"
+            <Image
               src={user?.avatar}
+              className="w-10 h-10 me-4 rounded-full"
               alt=""
-            ></img>
+            />
             <div className="font-medium dark:text-white w-full">
               <p>
                 <textarea

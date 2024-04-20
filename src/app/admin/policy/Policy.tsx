@@ -236,6 +236,7 @@ function Policy() {
                 {desc.map((item) => (
                   <CardPolicy
                     data={item}
+                    key={item._id}
                     handleEdit={(data) => handleEdit(data)}
                     handleDel={(data) => handleDel(data)}
                   />
@@ -256,8 +257,8 @@ function Policy() {
             <SpeedDialContent>
               {
                 // Loop dictType to render SpeedDialAction
-                Object.entries(dictType).map((item) => (
-                  <Tooltip content={item[1].label} placement="left">
+                Object.entries(dictType).map((item, index) => (
+                  <Tooltip key={index} content={item[1].label} placement="left">
                     <SpeedDialAction onClick={(e) => handleSpeedDial(item[0])}>
                       {item[1].icon}
                     </SpeedDialAction>

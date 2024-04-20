@@ -35,162 +35,159 @@ function Header() {
   const pathname = usePathname();
   const [user, setUser] = React.useState<UserInterface>();
   const [role, setRole] = React.useState("");
-  if (!arrPathName.some((path) => pathname.includes(path))) {
-    const [isProfileOpen, setIsProfileOpen] = React.useState(false);
-    const [countNewNoti, setCountNewNoti] = React.useState(0);
-    const [dataNoti, setDataNoti] = React.useState([]);
+  const [countNewNoti, setCountNewNoti] = React.useState(0);
+  const [dataNoti, setDataNoti] = React.useState([]);
 
-    const [isShowCart, setIsShowCart] = React.useState(true);
-    const dispatch = useDispatch<AppDispatch>();
-    const dataCarts = useAppSelector((state) => state.cartPopupReducer.items);
-    const totalCart = useAppSelector(
-      (state) => state.cartPopupReducer.totalCart
-    );
-    const [search, setSearch] = React.useState("");
-    const [socket, setSocket] = React.useState<any>();
-    // React.useEffect(() => {
-    //   const socket = io("https://dtex-be.onrender.com/conversation", {
-    //     auth: {
-    //       token:
-    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyMTQ5ZDA2OTAzNzkwOGVhYTA0NzciLCJpYXQiOjE3MDkzOTIyMTUsImV4cCI6MTcwOTQ3ODYxNX0.lBNjxxTcWIohP2svcb8uNhbqyjQY23gOIwBSsh_7LE0",
-    //     },
-    //   });
-    //   setSocket(socket);
-    // }, []);
+  const [isShowCart, setIsShowCart] = React.useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const dataCarts = useAppSelector((state) => state.cartPopupReducer.items);
+  const totalCart = useAppSelector((state) => state.cartPopupReducer.totalCart);
+  const [search, setSearch] = React.useState("");
+  const [socket, setSocket] = React.useState<any>();
+  // React.useEffect(() => {
+  //   const socket = io("https://dtex-be.onrender.com/conversation", {
+  //     auth: {
+  //       token:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWUyMTQ5ZDA2OTAzNzkwOGVhYTA0NzciLCJpYXQiOjE3MDkzOTIyMTUsImV4cCI6MTcwOTQ3ODYxNX0.lBNjxxTcWIohP2svcb8uNhbqyjQY23gOIwBSsh_7LE0",
+  //     },
+  //   });
+  //   setSocket(socket);
+  // }, []);
 
-    // const Test = () => {
-    //   console.log(socket);
-    //   // socket.emit(
-    //   //   "sendMessage",
-    //   //   {
-    //   //     text: "Hi Dang 2",
-    //   //     receiverId: "65e2c72b24f295a6d1ae4fe3",
-    //   //   },
-    //   //   (data: any) => {
-    //   //     console.log("ABCD", data);
-    //   //   }
-    //   // );
-    //   socket.join("65e2da218231ac059e34b2d8");
-    //   const aa = io.of("/conversation");
-    //   aa.emit(
-    //     "getPreviewConversations",
-    //     {
-    //       page: 1,
-    //       limit: 10,
-    //     },
-    //     (data: any) => {
-    //       console.log("ABCD", data);
-    //     }
-    //   );
-    // };
-    React.useEffect(() => {
-      const user = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user") ?? "")
-        : null;
-      user && setUser(user?.providerData[0]);
-      user && setRole(user?.role);
-    }, []);
-    React.useEffect(() => {
-      // Nếu role là admin và đang ở trang khác có pathname khác /admin thì redirect về trang admin
-      const user = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user") ?? "")
-        : null;
-      if (user) {
-        if (role.includes("ADMIN") && !pathname.startsWith("/admin")) {
-          redirect("/admin");
-        } else if (
-          role.includes("MANAGER") &&
-          !pathname.startsWith("/manager/product")
+  // const Test = () => {
+  //   console.log(socket);
+  //   // socket.emit(
+  //   //   "sendMessage",
+  //   //   {
+  //   //     text: "Hi Dang 2",
+  //   //     receiverId: "65e2c72b24f295a6d1ae4fe3",
+  //   //   },
+  //   //   (data: any) => {
+  //   //     console.log("ABCD", data);
+  //   //   }
+  //   // );
+  //   socket.join("65e2da218231ac059e34b2d8");
+  //   const aa = io.of("/conversation");
+  //   aa.emit(
+  //     "getPreviewConversations",
+  //     {
+  //       page: 1,
+  //       limit: 10,
+  //     },
+  //     (data: any) => {
+  //       console.log("ABCD", data);
+  //     }
+  //   );
+  // };
+  React.useEffect(() => {
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user") ?? "")
+      : null;
+    user && setUser(user?.providerData[0]);
+    user && setRole(user?.role);
+  }, []);
+  React.useEffect(() => {
+    // Nếu role là admin và đang ở trang khác có pathname khác /admin thì redirect về trang admin
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user") ?? "")
+      : null;
+    if (user) {
+      if (role.includes("ADMIN") && !pathname.startsWith("/admin")) {
+        redirect("/admin");
+      } else if (
+        role.includes("MANAGER") &&
+        !pathname.startsWith("/manager/product")
+      ) {
+        redirect("/manager/product");
+      } else {
+        if (
+          (role.includes("USER") || role.includes("SELLER")) &&
+          (pathname.startsWith("/admin") || pathname.startsWith("/manager"))
         ) {
-          redirect("/manager/product");
+          redirect("/");
         } else {
-          if (
-            (role.includes("USER") || role.includes("SELLER")) &&
-            (pathname.startsWith("/admin") || pathname.startsWith("/manager"))
-          ) {
-            redirect("/");
-          } else {
-            const fetchAllCart = async () => {
-              const res = await APIGetAllCart();
-              console.log(res);
-              var total = 0;
-              if (res.status == 200 || res.status == 201) {
-                const carts: Cart = {
-                  isCheckAll: false,
-                  store: res.data.metadata.data.map((item: any) => {
-                    return {
-                      id: item.storeId,
-                      name: item.storeName,
-                      isChecked: false,
-                      avatar: item.storeAvatar,
-                      product: item.products.map((product: any) => {
-                        total += 1;
-                        return {
-                          id: product.id,
-                          name: product.name,
-                          avatar: product.avatar[0],
-                          type: product.newPrice == 0 ? "GIVE" : "SELL",
-                          newPrice: product.newPrice,
-                          oldPrice: product.oldPrice,
-                          quantity: product.quantity,
-                          quantityInStock: product.quantityInStock,
-                          isChecked: false,
-                        };
-                      }),
-                    };
-                  }),
-                };
-                dispatch(setCartPopUp(carts));
-              }
-            };
-            if (user) {
-              fetchAllCart();
+          const fetchAllCart = async () => {
+            const res = await APIGetAllCart();
+            console.log(res);
+            var total = 0;
+            if (res.status == 200 || res.status == 201) {
+              const carts: Cart = {
+                isCheckAll: false,
+                store: res.data.metadata.data.map((item: any) => {
+                  return {
+                    id: item.storeId,
+                    name: item.storeName,
+                    isChecked: false,
+                    avatar: item.storeAvatar,
+                    product: item.products.map((product: any) => {
+                      total += 1;
+                      return {
+                        id: product.id,
+                        name: product.name,
+                        avatar: product.avatar[0],
+                        type: product.newPrice == 0 ? "GIVE" : "SELL",
+                        newPrice: product.newPrice,
+                        oldPrice: product.oldPrice,
+                        quantity: product.quantity,
+                        quantityInStock: product.quantityInStock,
+                        isChecked: false,
+                      };
+                    }),
+                  };
+                }),
+              };
+              dispatch(setCartPopUp(carts));
             }
+          };
+          if (user) {
+            fetchAllCart();
           }
         }
-      } else {
       }
-    }, []);
+    } else {
+    }
+  }, []);
 
-    React.useEffect(() => {
-      const user = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user") ?? "").providerData[0]
-        : null;
-      const fetchAllNoti = async () => {
-        const res = await APIGetAllNotification({
-          page: 1,
-          limit: 10,
-        });
-        if (res.status == 200 || res.status == 201) {
-          setDataNoti(res.metadata.data.notifications);
-          setCountNewNoti(
-            res.metadata.data.notifications.filter(
-              (item: any) => item.status == false
-            ).length
-          );
-        }
-      };
-      if (user && user.role != "Admin") {
-        // fetchAllNoti();
-      }
-    }, []);
-    React.useEffect(() => {
-      if (pathname == "/cart") {
-        setIsShowCart(false);
-      } else {
-        setIsShowCart(true);
-      }
-    }, []);
-
-    const OpenStore = async () => {
-      const store = await APIGetMyStore();
-      console.log(store);
-      if (store.status == 200 || store.status == 201) {
-        window.location.href = "/shop/seller/" + store.data.metadata.data._id;
-      } else {
-        window.location.href = "/shop/create";
+  React.useEffect(() => {
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user") ?? "").providerData[0]
+      : null;
+    const fetchAllNoti = async () => {
+      const res = await APIGetAllNotification({
+        page: 1,
+        limit: 10,
+      });
+      if (res.status == 200 || res.status == 201) {
+        setDataNoti(res.metadata.data.notifications);
+        setCountNewNoti(
+          res.metadata.data.notifications.filter(
+            (item: any) => item.status == false
+          ).length
+        );
       }
     };
+    if (user && user.role != "Admin") {
+      // fetchAllNoti();
+    }
+  }, []);
+  React.useEffect(() => {
+    if (pathname == "/cart") {
+      setIsShowCart(false);
+    } else {
+      setIsShowCart(true);
+    }
+  }, []);
+
+  const OpenStore = async () => {
+    const store = await APIGetMyStore();
+    console.log(store);
+    if (store.status == 200 || store.status == 201) {
+      window.location.href = "/shop/seller/" + store.data.metadata.data._id;
+    } else {
+      window.location.href = "/shop/create";
+    }
+  };
+  if (!arrPathName.some((path) => pathname.includes(path))) {
     return (
       <>
         {(role.includes("USER") || role.includes("SELLER") || !role) && (

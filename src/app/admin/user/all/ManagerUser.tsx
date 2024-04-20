@@ -8,6 +8,7 @@ import FormatMoney from "@/utils/FormatMoney";
 import Toast from "@/utils/Toast";
 import formatToDDMMYYYY from "@/utils/formatToDDMMYYYY";
 import React from "react";
+import Image from "next/image";
 
 interface ListUser {
   total: number;
@@ -167,7 +168,7 @@ function ManagerUser() {
             key={index}
           >
             <td className="px-6 py-4 text-center">
-              <img
+              <Image
                 src={item.avatar}
                 width={50}
                 height={50}
