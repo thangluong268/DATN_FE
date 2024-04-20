@@ -37,15 +37,13 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - name: Install Next.js
-        run: |
-          npm ci
-          npm run build -- --no-lint
     
   deploy:
     runs-on: self-hosted
     needs: build
     steps:
     - run: |
-        pm2 delete dtex-fe || true
-        pm2 start npm --name dtex-fe -- run dev
+        docker stop dtex-fe || true
+        docker rm dtex-fe || true
+        docker-compose -f docker-compose.yml up -d
+        docker image prune -f
