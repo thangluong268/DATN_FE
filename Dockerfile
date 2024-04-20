@@ -17,7 +17,7 @@ RUN npm run build -- --no-lint
 FROM node:lts-bookworm-slim
 WORKDIR /app
 
-COPY --from=builder /app/public ./public
+COPY --from=build /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
