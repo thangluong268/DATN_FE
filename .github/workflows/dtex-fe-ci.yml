@@ -40,3 +40,12 @@ jobs:
       - name: Install Next.js
         run: |
           npm ci
+    
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+    - run: |
+        npm run build
+        pm2 delete dtex-fe
+        pm2 start npm --name dtex-fe -- run dev
