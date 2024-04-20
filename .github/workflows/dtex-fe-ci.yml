@@ -28,3 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
+      - name: Install Next.js
+        run: |
+          npm ci
+          npm run build
