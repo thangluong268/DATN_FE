@@ -8,6 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies
+RUN npm install -D tailwindcss postcss autoprefixer
+RUN npx tailwindcss init
 RUN npm install
 
 # Copy the source code into the container
